@@ -1,0 +1,64 @@
+import React from "react";
+import Categories from "../../Categories";
+import ItemsLayout from "../../ItemsSorting";
+
+interface Item {
+  id: number;
+  title: string;
+  img: string;
+  date: string;
+}
+
+interface SliderProps {
+  items: Item[];
+  categories: string[]; // Assuming categories is an array of strings
+  onMoveButtonClick: (category: string | null) => void;
+  selectedCategory: string | null;
+}
+
+const SliderSwiper: React.FC<SliderProps> = ({
+  items,
+  categories,
+  onMoveButtonClick,
+  selectedCategory,
+}) => {
+  return (
+    <>
+      <section className="item-background-container">
+        {items.map((item) => (
+          <div key={item.id} className="item-wrapper">
+            <div className="item-thumbnail-container">
+              <img
+                className="item-thumbnail-image"
+                src={item.img}
+                alt={item.title}
+              />
+            </div>
+            <section className="item-titles">
+              <div className="brand-title">{item.title}</div>
+              <div className="item-title">{item.title}</div>
+            </section>
+            <section className="item-credits">
+              <div className="item-credits-title">Director</div>
+              <div className="item-credits-name">John Doberman</div>
+            </section>
+            <section className="item-buttons">
+              <div className="item-button-left">left</div>
+              <div className="item-button-right">right</div>
+            </section>
+            <section className="item-brands"></section>
+          </div>
+        ))}
+      </section>
+      <section>
+        <Categories
+          filterFunction={onMoveButtonClick}
+          categories={categories}
+        />
+        <ItemsLayout itemsData={items} />
+      </section>
+    </>
+  );
+};
+
+export default SliderSwiper;
