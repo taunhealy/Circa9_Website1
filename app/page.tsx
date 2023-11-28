@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import SliderSwiper from "./components/Slider/SliderSwiperJS/SliderSwiper";
 import ItemsData from "@/app/data/data";
