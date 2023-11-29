@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, useLayoutEffect, useEffect, useRef } from "react";
 import gsap from "gsap";
 import "./sliderswiper.css";
 interface Item {
@@ -51,6 +51,11 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
       ".brand-filter-buttons"
     );
   }, []);
+
+
+  useLayoutEffect(() => {
+
+    const ctx = gsap.context(() => {
   const handleFilterChange = (brand: string | null): void => {
     gsap.to(
       [
@@ -72,6 +77,8 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
       }
     );
   };
+
+
   const animateIn = () => {
     const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
     timeline.fromTo(
@@ -148,6 +155,11 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
       }
     );
   };
+  return () => ctx.revert();
+  
+}, []);
+  
+
   return (
     <div className="item-background-container">
       {filteredItems.length > 0 && (
