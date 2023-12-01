@@ -1,6 +1,7 @@
-import React, { useState, useMemo, useLayoutEffect, useEffect, useRef } from "react";
+import React, { useState, useMemo, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import "./sliderswiper.css";
+
 interface Item {
   id: number;
   title: string;
@@ -12,9 +13,11 @@ interface Item {
   producer?: string;
   cinematographer?: string;
 }
+
 interface SliderProps {
   items: Item[];
 }
+
 const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedBrand, setSelectedBrand] = useState<string | null>("Recent");
@@ -26,6 +29,7 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
     );
     return ["Recent", ...uniqueBrands];
   }, [items]);
+
   const filteredItems = useMemo(() => {
     if (selectedBrand === "Recent") {
       const validDateItems = items.filter((item) => item.date);
@@ -35,13 +39,15 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
     } else {
       return items.filter((item) => item.brand === selectedBrand);
     }
-  }, [items, selectedBrand]);
+  }, [selectedBrand, currentIndex]);
+
   const itemTitlesRef = useRef<NodeListOf<Element> | null>(null);
   const itemImageRef = useRef<HTMLImageElement | null>(null);
   const buttonPrevRef = useRef<HTMLButtonElement | null>(null);
   const buttonNextRef = useRef<HTMLButtonElement | null>(null);
   const brandFilterButtonsRef = useRef<NodeListOf<Element> | null>(null);
-  useEffect(() => {
+
+  useLayoutEffect(() => {
     // Store refs to elements
     itemTitlesRef.current = document.querySelectorAll(".item-titles");
     itemImageRef.current = document.querySelector(".item-image");
@@ -52,113 +58,75 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
     );
   }, []);
 
-
   useLayoutEffect(() => {
-
+    // Create a context for all GSAP animations and ScrollTriggers
     const ctx = gsap.context(() => {
-  const handleFilterChange = (brand: string | null): void => {
-    gsap.to(
-      [
+      const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      const randomEase = gsap.utils.random([
+        "power1.inOut",
+        "power2.inOut",
+        "power3.inOut",
+      ]);
+      const randomDelay = gsap.utils.random(0.1, 0.7); // Adjust the range as needed
+
+      timeline.fromTo(
         itemTitlesRef.current,
+        { opacity: 0, y: 0 },
+        { opacity: 1, y: 0, duration: 1.3, ease: randomEase },
+        "start"
+      );
+
+      timeline.fromTo(
         itemImageRef.current,
+        { opacity: 0, y: 7 },
+        { opacity: 1, y: 0, duration: 1.8, ease: randomEase },
+        "start+=0.2"
+      );
+
+      timeline.fromTo(
         buttonPrevRef.current,
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 1.5, stagger: 0.1, ease: randomEase },
+        "start+=0.5"
+      );
+
+      timeline.fromTo(
         buttonNextRef.current,
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 0.3, stagger: 0.1, ease: randomEase },
+        "start+=0.5"
+      );
+
+      timeline.fromTo(
         brandFilterButtonsRef.current,
-      ],
-      {
-        opacity: 0,
-        duration: 0.3,
-        ease: "power3.out",
-        onComplete: () => {
-          setSelectedBrand(brand);
-          setCurrentIndex(0);
-          animateIn();
-        },
-      }
-    );
+        { opacity: 0.6, y: 0 },
+        { opacity: 1, y: 0, duration: 0.3, ease: randomEase },
+        "start+=0.5"
+      );
+    }, [currentIndex]); // Only re-run the animation when currentIndex changes
+
+    return () => ctx.revert(); // Cleanup
+  }, [currentIndex, filteredItems]);
+
+  const handleFilterChange = (brand: string | null): void => {
+    setSelectedBrand(brand);
+    setCurrentIndex(0);
+    // The animations will be triggered in the useLayoutEffect
   };
 
-
-  const animateIn = () => {
-    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-    timeline.fromTo(
-      itemTitlesRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1 },
-      "start"
-    );
-    timeline.fromTo(
-      itemImageRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1 },
-      "start+=0.2"
-    );
-    timeline.fromTo(
-      buttonPrevRef.current,
-      { opacity: 0, x: -20 },
-      { opacity: 1, x: 0, duration: 0.3, stagger: 0.1 },
-      "start+=0.5"
-    );
-    timeline.fromTo(
-      buttonNextRef.current,
-      { opacity: 0, x: -20 },
-      { opacity: 1, x: 0, duration: 0.3, stagger: 0.1 },
-      "start+=0.5"
-    );
-    timeline.fromTo(
-      brandFilterButtonsRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.5 },
-      "start+=0.5"
-    );
-  };
   const handleNextItem = () => {
-    gsap.to(
-      [
-        itemTitlesRef.current,
-        itemImageRef.current,
-        buttonPrevRef.current,
-        buttonNextRef.current,
-      ],
-      {
-        opacity: 0,
-        duration: 0.3,
-        ease: "power3.out",
-        onComplete: () => {
-          setCurrentIndex(
-            (prevIndex) => (prevIndex + 1) % filteredItems.length
-          );
-          animateIn();
-        },
-      }
-    );
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % filteredItems.length);
+    // The animations will be triggered in the useLayoutEffect
   };
+
   const handlePrevItem = () => {
-    gsap.to(
-      [
-        itemImageRef.current,
-        itemTitlesRef.current,
-        buttonPrevRef.current,
-        buttonNextRef.current,
-      ],
-      {
-        opacity: 0,
-        duration: 0.3,
-        ease: "power3.out",
-        onComplete: () => {
-          setCurrentIndex(
-            (prevIndex) =>
-              (prevIndex - 1 + filteredItems.length) % filteredItems.length
-          );
-          animateIn();
-        },
-      }
+    setCurrentIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + filteredItems.length) % filteredItems.length
     );
+    // The animations will be triggered in the useLayoutEffect
   };
-  return () => ctx.revert();
-  
-}, []);
-  
 
   return (
     <div className="item-background-container">
@@ -201,4 +169,5 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
     </div>
   );
 };
+
 export default SliderSwiper;
