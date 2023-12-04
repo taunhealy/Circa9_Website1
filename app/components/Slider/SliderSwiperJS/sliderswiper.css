@@ -26,7 +26,7 @@
 .brand-filter-sidebar {
   grid-area: brands;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   gap: 18px; /* Adjust as needed */
@@ -37,8 +37,6 @@
   overflow: hidden;
   width: 100%;
   height: 100%;
-  transform: scale(0.8);
-  aspect-ratio: 16/7;
 }
 
 .nextprev-button-wrapper {
@@ -106,6 +104,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(0.8);
+  aspect-ratio: 8/10;
 }
 
 .brand-title {
@@ -136,12 +136,16 @@
   border: none;
 }
 
-.button-prev img,
-.button-next img {
-  width: 21px; /* Adjust as needed */
-  height: 21px; /* Adjust as needed */
+.button-next {
   object-fit: contain; /* Maintain aspect ratio */
   background-color: transparent; /* Ensure transparency */
   border: none; /* Remove button border */
   cursor: pointer;
+  transform: scale(1.5);
+}
+
+.button-prev {
+  object-fit: contain;
+  cursor: pointer;
+  transform: scale(1);
 }

@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
+import React, { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./sliderswiper.css";
 
 interface Item {
@@ -41,83 +41,13 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
     }
   }, [selectedBrand, currentIndex]);
 
-  const itemTitlesRef = useRef<NodeListOf<Element> | null>(null);
-  const itemImageRef = useRef<HTMLImageElement | null>(null);
-  const buttonPrevRef = useRef<HTMLButtonElement | null>(null);
-  const buttonNextRef = useRef<HTMLButtonElement | null>(null);
-  const brandFilterButtonsRef = useRef<NodeListOf<Element> | null>(null);
-
-  useLayoutEffect(() => {
-    // Store refs to elements
-    itemTitlesRef.current = document.querySelectorAll(".item-titles");
-    itemImageRef.current = document.querySelector(".item-image");
-    buttonPrevRef.current = document.querySelector(".button-prev");
-    buttonNextRef.current = document.querySelector(".button-next");
-    brandFilterButtonsRef.current = document.querySelectorAll(
-      ".brand-filter-buttons"
-    );
-  }, []);
-
-  useLayoutEffect(() => {
-    // Create a context for all GSAP animations and ScrollTriggers
-    const ctx = gsap.context(() => {
-      const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      const randomEase = gsap.utils.random([
-        "power1.inOut",
-        "power2.inOut",
-        "power3.inOut",
-      ]);
-      const randomDelay = gsap.utils.random(0.1, 0.7); // Adjust the range as needed
-
-      timeline.fromTo(
-        itemTitlesRef.current,
-        { opacity: 0, y: 0 },
-        { opacity: 1, y: 0, duration: 1.3, ease: randomEase },
-        "start"
-      );
-
-      timeline.fromTo(
-        itemImageRef.current,
-        { opacity: 0, y: 7 },
-        { opacity: 1, y: 0, duration: 1.8, ease: randomEase },
-        "start+=0.2"
-      );
-
-      timeline.fromTo(
-        buttonPrevRef.current,
-        { opacity: 0, x: -20 },
-        { opacity: 1, x: 0, duration: 1.5, stagger: 0.1, ease: randomEase },
-        "start+=0.5"
-      );
-
-      timeline.fromTo(
-        buttonNextRef.current,
-        { opacity: 0, x: -20 },
-        { opacity: 1, x: 0, duration: 0.3, stagger: 0.1, ease: randomEase },
-        "start+=0.5"
-      );
-
-      timeline.fromTo(
-        brandFilterButtonsRef.current,
-        { opacity: 0.6, y: 0 },
-        { opacity: 1, y: 0, duration: 0.3, ease: randomEase },
-        "start+=0.5"
-      );
-    }, [currentIndex]); // Only re-run the animation when currentIndex changes
-
-    return () => ctx.revert(); // Cleanup
-  }, [currentIndex, filteredItems]);
-
   const handleFilterChange = (brand: string | null): void => {
     setSelectedBrand(brand);
     setCurrentIndex(0);
-    // The animations will be triggered in the useLayoutEffect
   };
 
   const handleNextItem = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % filteredItems.length);
-    // The animations will be triggered in the useLayoutEffect
   };
 
   const handlePrevItem = () => {
@@ -125,45 +55,96 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
       (prevIndex) =>
         (prevIndex - 1 + filteredItems.length) % filteredItems.length
     );
-    // The animations will be triggered in the useLayoutEffect
   };
+
+  useEffect(() => {
+    // Perform cleanup when component unmounts
+    return () => {
+      // Your cleanup logic here
+    };
+  }, []);
 
   return (
     <div className="item-background-container">
-      {filteredItems.length > 0 && (
-        <section className="item-titles">
-          <div className="brand-title">{filteredItems[currentIndex].brand}</div>
-          <div className="item-title">{filteredItems[currentIndex].title}</div>
-        </section>
-      )}
+      <AnimatePresence mode="wait">
+        {filteredItems.length > 0 && (
+          <motion.section
+            key={currentIndex}
+            className="item-titles"
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="brand-title">
+              {filteredItems[currentIndex].brand}
+            </div>
+            <div className="item-title">
+              {filteredItems[currentIndex].title}
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
+
       <div className="brand-filter-sidebar">
         {brands.map((brand) => (
-          <button
+          <motion.button
             key={brand}
             className={`brand-filter-buttons ${
               selectedBrand === brand ? "active" : ""
             }`}
             onClick={() => handleFilterChange(brand)}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            transition={{ duration: 0.5 }}
           >
             {brand}
-          </button>
+          </motion.button>
         ))}
       </div>
-      <div className="item-image-container">
+
+      <AnimatePresence mode="wait">
         {filteredItems.length > 0 && (
-          <img
-            className="item-image"
-            src={filteredItems[currentIndex].img}
-            alt={filteredItems[currentIndex].title}
-          />
+          <motion.div
+            key={currentIndex}
+            className="item-image-container"
+            initial={{ opacity: 0, y: 7 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 0 }}
+            transition={{ duration: 0.7, delay: 0 }}
+          >
+            <img
+              className="item-image"
+              src={filteredItems[currentIndex].img}
+              alt={filteredItems[currentIndex].title}
+            />
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
+
       <div className="nextprev-button-wrapper">
-        <button type="button" className="button-prev" onClick={handlePrevItem}>
-          <img src="/arrows/left-chevron-svgrepo-com.svg" alt="Previous" />
+        <button
+          title="button-prev"
+          type="button"
+          className="button-prev"
+          onClick={handlePrevItem}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+            <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
+            <path d="M13.293 7.293 8.586 12l4.707 4.707 1.414-1.414L11.414 12l3.293-3.293-1.414-1.414z" />
+          </svg>
         </button>
-        <button type="button" className="button-next" onClick={handleNextItem}>
-          <img src="/arrows/right-chevron-svgrepo-com.svg" alt="Next" />
+        <button
+          title="button-next"
+          type="button"
+          className="button-next"
+          onClick={handleNextItem}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+            <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
+            <path d="M9.293 8.707 12.586 12l-3.293 3.293 1.414 1.414L15.414 12l-4.707-4.707-1.414 1.414z" />
+          </svg>
         </button>
       </div>
     </div>
