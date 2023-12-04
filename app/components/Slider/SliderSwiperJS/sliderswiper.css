@@ -1,7 +1,7 @@
 .item-background-container {
   height: 100vh;
   width: 100%;
-  background-color: #ffff;
+  background-color: white;
   display: grid;
   grid-template-areas:
     "... titles ..."
@@ -45,7 +45,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  align-items: start;
+  align-items: flex-start;
 
   background-color: transparent;
   gap: 18px; /* Adjust as needed */
@@ -67,44 +67,11 @@
   font-size: 16px;
 }
 
-.brand-filter-buttons {
-  color: black;
-  font-family: Inter;
-  font-size: clamp(12px, 12px, 10%);
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  z-index: 9;
-  background-color: transparent;
-  cursor: pointer;
-  border-color: transparent;
-  width: 100%;
-  height: 0%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 20%;
-}
-
-.brand-filter-buttons.active {
-  font-weight: bold;
-}
-
-.brand-filter-buttons:nth-child(1) {
-  font-style: regular;
-  text-transform: capitalize;
-  margin-bottom: 7px;
-  letter-spacing: 1.2px;
-  font-size: clamp(12px, 12px, 10%);
-}
-
 .item-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(0.8);
+  transform: scale(0.875);
   aspect-ratio: 8/10;
 }
 
@@ -138,8 +105,6 @@
 
 .button-next {
   object-fit: contain; /* Maintain aspect ratio */
-  background-color: transparent; /* Ensure transparency */
-  border: none; /* Remove button border */
   cursor: pointer;
   transform: scale(1.5);
 }
@@ -148,4 +113,16 @@
   object-fit: contain;
   cursor: pointer;
   transform: scale(1);
+}
+
+.production-title-container {
+  grid-area: arrows;
+  width: 100%;
+  height: 100%;
+}
+
+.production-title {
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
 }

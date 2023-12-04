@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./sliderswiper.css";
+import BrandFilterButton from "../../Buttons/BrandFilterButtons";
 
 interface Item {
   id: number;
@@ -10,8 +13,14 @@ interface Item {
   brand: string;
   desc?: string;
   director?: string;
-  producer?: string;
+  production?: string;
   cinematographer?: string;
+}
+
+interface BrandFilterSidebar {
+  brand: string;
+  selected: string;
+  handleFilterChange: string;
 }
 
 interface SliderProps {
@@ -21,6 +30,8 @@ interface SliderProps {
 const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedBrand, setSelectedBrand] = useState<string | null>("Recent");
+  const [filterButtonsVisible, setFilterButtonsVisible] = useState(true);
+
   const brands = useMemo(() => {
     const uniqueBrands = Array.from(
       new Set(
@@ -41,6 +52,17 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
     }
   }, [selectedBrand, currentIndex]);
 
+  useEffect(() => {
+    setFilterButtonsVisible(false);
+
+    //Show filter buttons after a short delay
+    const timeoutId = setTimeout(() => {
+      setFilterButtonsVisible(true);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [selectedBrand]);
+
   const handleFilterChange = (brand: string | null): void => {
     setSelectedBrand(brand);
     setCurrentIndex(0);
@@ -57,62 +79,71 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
     );
   };
 
-  useEffect(() => {
-    // Perform cleanup when component unmounts
-    return () => {
-      // Your cleanup logic here
-    };
-  }, []);
+  const brandFilterAnimation = {
+    initial: { opacity: 0, y: -10 },
+    hidden: { opacity: 0, y: 0 },
+    show: {
+      transition: {
+        staggerChildren: 0.34,
+        duration: 1.7,
+      },
+      opacity: 1,
+      y: 0,
+    },
+    exit: {
+      opacity: 0,
+      y: 0,
+      transition: {
+        ease: "easeInOut",
+        duration: 1,
+      },
+    },
+  };
 
   return (
     <div className="item-background-container">
       <AnimatePresence mode="wait">
-        {filteredItems.length > 0 && (
-          <motion.section
-            key={currentIndex}
-            className="item-titles"
-            initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="brand-title">
-              {filteredItems[currentIndex].brand}
-            </div>
-            <div className="item-title">
-              {filteredItems[currentIndex].title}
-            </div>
-          </motion.section>
-        )}
+        <motion.section
+          key={selectedBrand}
+          className="item-titles"
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 0 }}
+          transition={{ duration: 1.5 }}
+        >
+          <div className="brand-title">{filteredItems[currentIndex].brand}</div>
+          <div className="item-title">{filteredItems[currentIndex].title}</div>
+        </motion.section>
       </AnimatePresence>
-
-      <div className="brand-filter-sidebar">
-        {brands.map((brand) => (
-          <motion.button
-            key={brand}
-            className={`brand-filter-buttons ${
-              selectedBrand === brand ? "active" : ""
-            }`}
-            onClick={() => handleFilterChange(brand)}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            transition={{ duration: 0.5 }}
-          >
-            {brand}
-          </motion.button>
-        ))}
-      </div>
-
       <AnimatePresence mode="wait">
-        {filteredItems.length > 0 && (
+        <motion.div
+          className="brand-filter-sidebar"
+          initial="hidden"
+          animate="show"
+          exit="exit"
+          variants={brandFilterAnimation}
+          key="brand-filter"
+        >
+          {brands.map((brand) => (
+            <BrandFilterButton
+              key={brand}
+              brand={brand}
+              selected={brand === selectedBrand}
+              onClick={() => handleFilterChange(brand)}
+            />
+          ))}
+        </motion.div>
+      </AnimatePresence>
+      {filteredItems.length > 0 && (
+        <AnimatePresence mode="wait">
           <motion.div
-            key={currentIndex}
+            key={selectedBrand}
             className="item-image-container"
-            initial={{ opacity: 0, y: 7 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 0 }}
-            transition={{ duration: 0.7, delay: 0 }}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            variants={brandFilterAnimation}
+            custom={currentIndex}
           >
             <img
               className="item-image"
@@ -120,33 +151,55 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
               alt={filteredItems[currentIndex].title}
             />
           </motion.div>
-        )}
+        </AnimatePresence>
+      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          exit="exit"
+          variants={brandFilterAnimation}
+          className="nextprev-button-wrapper"
+        >
+          <button
+            title="button-prev"
+            type="button"
+            className="button-prev"
+            onClick={handlePrevItem}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+              <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
+              <path d="M13.293 7.293 8.586 12l4.707 4.707 1.414-1.414L11.414 12l3.293-3.293-1.414-1.414z" />
+            </svg>
+          </button>
+          <button
+            title="button-next"
+            type="button"
+            className="button-next"
+            onClick={handleNextItem}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+              <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
+              <path d="M9.293 8.707 12.586 12l-3.293 3.293 1.414 1.414L15.414 12l-4.707-4.707-1.414 1.414z" />
+            </svg>
+          </button>
+        </motion.div>
       </AnimatePresence>
-
-      <div className="nextprev-button-wrapper">
-        <button
-          title="button-prev"
-          type="button"
-          className="button-prev"
-          onClick={handlePrevItem}
+      <AnimatePresence mode="wait">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          exit="exit"
+          variants={brandFilterAnimation}
+          className="production-title-container"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-            <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
-            <path d="M13.293 7.293 8.586 12l4.707 4.707 1.414-1.414L11.414 12l3.293-3.293-1.414-1.414z" />
-          </svg>
-        </button>
-        <button
-          title="button-next"
-          type="button"
-          className="button-next"
-          onClick={handleNextItem}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-            <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
-            <path d="M9.293 8.707 12.586 12l-3.293 3.293 1.414 1.414L15.414 12l-4.707-4.707-1.414 1.414z" />
-          </svg>
-        </button>
-      </div>
+          {filteredItems[currentIndex]?.production && (
+            <div className="production-title">
+              {filteredItems[currentIndex].production}
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
