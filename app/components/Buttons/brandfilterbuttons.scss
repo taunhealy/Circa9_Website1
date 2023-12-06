@@ -1,37 +1,24 @@
 .brand-filter-buttons {
-  color: black;
-  font-family: Inter;
+  color: rgb(53, 53, 53);
+  background-color: white;
   font-size: clamp(12px, 12px, 10%);
-  font-style: normal;
-  font-weight: 500;
+  font-family: Inter;
+  font-weight: 300;
   line-height: normal;
   text-transform: uppercase;
   letter-spacing: 1px;
-  z-index: 9;
-  background-color: transparent !important;
   cursor: pointer;
-  border-color: transparent;
-  width: 100%;
-  height: 0%;
+  border: none;
+  width: 100%; /* Use 100% width to fill the entire container */
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 20%;
-}
-
-.button-filter-brand {
-  font-weight: bold;
-  text-transform: capitalize;
+  justify-content: flex-end; /* Align content to the end (right side) */
+  align-items: center; /* Align items in the center vertically */
+  padding: 0; /* Remove any default padding */
+  opacity: 100%; /* Use a decimal value for opacity, e.g., 0.5 for 50% */
 }
 
 .brand-filter-buttons.active {
-  font-weight: bold;
-}
-
-.brand-filter-buttons:nth-child(1) {
-  font-style: normal;
-  text-transform: capitalize;
-  margin-bottom: 7px;
-  letter-spacing: 1.2px;
-  font-size: clamp(12px, 12px, 10%);
+  font-weight: 650;
+  font-size: 15px;
+  color: black;
 }

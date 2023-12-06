@@ -13,11 +13,14 @@ const BrandFilterButton: React.FC<BrandFilterButtonProps> = ({
   onClick,
 }) => {
   return (
-    <div className={`brand-filter-buttons ${selected ? "active" : ""}`}>
-      <button type="button" title="button-filter-brand" onClick={onClick}>
-        {brand}
-      </button>
-    </div>
+    <button
+      className={`brand-filter-buttons ${selected ? "active" : ""}`}
+      type="button"
+      title="button-filter-brand"
+      onClick={onClick}
+    >
+      {brand}
+    </button>
   );
 };
 

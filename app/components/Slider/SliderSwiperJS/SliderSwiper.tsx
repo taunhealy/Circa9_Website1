@@ -4,6 +4,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./sliderswiper.css";
 import BrandFilterButton from "../../Buttons/BrandFilterButtons";
+import Cursor from "../../Cursors/Cursor";
 
 interface Item {
   id: number;
@@ -17,20 +18,15 @@ interface Item {
   cinematographer?: string;
 }
 
-interface BrandFilterSidebar {
-  brand: string;
-  selected: string;
-  handleFilterChange: string;
-}
-
 interface SliderProps {
   items: Item[];
 }
 
-const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
+const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedBrand, setSelectedBrand] = useState<string | null>("Recent");
   const [filterButtonsVisible, setFilterButtonsVisible] = useState(true);
+  const [showCursor, setShowCursor] = useState(false); // Add showCursor state
 
   const brands = useMemo(() => {
     const uniqueBrands = Array.from(
@@ -55,7 +51,7 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
   useEffect(() => {
     setFilterButtonsVisible(false);
 
-    //Show filter buttons after a short delay
+    // Show filter buttons after a short delay
     const timeoutId = setTimeout(() => {
       setFilterButtonsVisible(true);
     }, 500);
@@ -111,13 +107,17 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
           exit={{ opacity: 0, y: 0 }}
           transition={{ duration: 1.5 }}
         >
+          {showCursor && <Cursor setShowCursor={setShowCursor} key="cursor" />}
           <div className="brand-title">{filteredItems[currentIndex].brand}</div>
           <div className="item-title">{filteredItems[currentIndex].title}</div>
         </motion.section>
       </AnimatePresence>
+
       <AnimatePresence mode="wait">
         <motion.div
           className="brand-filter-sidebar"
+          onMouseOver={() => setShowCursor(true)} // Show cursor on mouse over
+          onMouseLeave={() => setShowCursor(false)} // Hide cursor on mouse leave
           initial="hidden"
           animate="show"
           exit="exit"
@@ -185,23 +185,26 @@ const SliderSwiper: React.FC<SliderProps> = ({ items }) => {
           </button>
         </motion.div>
       </AnimatePresence>
-      <AnimatePresence mode="wait">
-        <motion.div
-          initial="hidden"
-          animate="show"
-          exit="exit"
-          variants={brandFilterAnimation}
-          className="production-title-container"
-        >
-          {filteredItems[currentIndex]?.production && (
-            <div className="production-title">
-              {filteredItems[currentIndex].production}
-            </div>
-          )}
-        </motion.div>
+      <AnimatePresence>
+        {filteredItems.length > 0 && (
+          <motion.div
+            key="production-title"
+            className="production-title-container"
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            variants={brandFilterAnimation}
+          >
+            {filteredItems[currentIndex]?.production && (
+              <div className="production-title">
+                {filteredItems[currentIndex].production}
+              </div>
+            )}
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   );
 };
 
-export default SliderSwiper;
+export default SliderSwiperWrapper;
