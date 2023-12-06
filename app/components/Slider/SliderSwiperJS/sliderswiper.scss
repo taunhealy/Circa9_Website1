@@ -1,3 +1,5 @@
+// sliderswiper.css
+
 .item-background-container {
   height: 100vh;
   width: 100%;
@@ -5,8 +7,8 @@
   display: grid;
   grid-template-areas:
     "... titles ..."
-    "brands content credits"
-    "... arrows ...";
+    "brands content lines"
+    "... credits arrows";
   grid-template-columns: 1fr 2.5fr 1fr;
   grid-template-rows: 1fr 2.5fr 1fr;
   overflow: hidden;
@@ -34,7 +36,7 @@
 }
 
 .production-title-container {
-  grid-area: arrows;
+  grid-area: credits;
   position: relative;
   width: 100%;
   display: flex;
@@ -54,9 +56,9 @@
   position: relative;
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: flex-start;
-  right: 12%;
+  right: 20%;
 
   background-color: transparent;
   gap: 18px; /* Adjust as needed */

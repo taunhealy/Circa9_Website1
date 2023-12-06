@@ -2,9 +2,10 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import "./sliderswiper.css";
+import "./sliderswiper.scss";
 import BrandFilterButton from "../../Buttons/BrandFilterButtons";
 import Cursor from "../../Cursors/Cursor";
+import ItemLines from "../../ItemLines/ItemLines";
 
 interface Item {
   id: number;
@@ -202,6 +203,16 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
             )}
           </motion.div>
         )}
+        <motion.div
+          key="item-lines"
+          className="item-lines-container"
+          initial="hidden"
+          animate="show"
+          exit="exit"
+          variants={brandFilterAnimation}
+        >
+          <ItemLines items={filteredItems} activeIndex={currentIndex} />
+        </motion.div>
       </AnimatePresence>
     </div>
   );

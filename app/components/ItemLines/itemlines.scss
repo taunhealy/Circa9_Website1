@@ -1,0 +1,33 @@
+//itemlines.scss
+
+.item-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-self: center; /* Align to the bottom */
+  width: 100%;
+}
+
+.item-lines-container {
+  grid-area: lines;
+  position: relative;
+  display: flex;
+  z-index: 0;
+  width: 10%;
+  align-items: center; /* Center content vertically */
+  gap: 2%;
+  justify-content: center; /* Align to the start of the main axis */
+  padding: 0%;
+}
+
+.item-line-image-active {
+  background-color: #000; /* Adjust the color for the active line */
+  width: 20px;
+  height: 20px;
+}
+
+.item-line-image {
+  width: 18px;
+  height: 18px;
+  border-radius: 3rem;
+}
