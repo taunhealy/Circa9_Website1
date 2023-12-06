@@ -76,8 +76,8 @@ const Card: React.FC<CardProps> = ({ itemsData }) => {
               <div className="card-image-container">
                 <motion.div
                   className="card-image"
-                  initial={{ opacity: 0.65 }}
-                  whileHover={{ opacity: 1, transition: { duration: 0.2 } }}
+                  initial={{ opacity: 0.45 }}
+                  whileHover={{ opacity: 1, transition: { duration: 0.05 } }}
                 >
                   <Image
                     src={item.img}

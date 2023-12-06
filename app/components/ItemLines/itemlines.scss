@@ -1,34 +1,36 @@
-//itemlines.scss
-
+/* Style for the individual lines within the item lines container */
 .item-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-self: center; /* Align to the bottom */
-  width: 100%;
+  display: flex; /* Flexbox layout for item lines */
+  flex-direction: column; /* Arrange items in a column */
+  gap: 8px; /* Spacing between each line */
+  align-self: center; /* Center horizontally within the container */
+  width: 100%; /* Full width of the container */
 }
 
+/* Container for the item lines grid */
 .item-lines-container {
-  grid-area: lines;
-  position: relative;
-  display: flex;
-  z-index: 0;
-  width: 10%;
+  grid-area: lines; /* Position in the specified grid area */
+  position: relative; /* Use relative positioning */
+  display: flex; /* Flexbox layout for the container */
+  z-index: 0; /* Stacking order */
+  width: 10%; /* Width relative to the containing element */
   align-items: center; /* Center content vertically */
-  gap: 2%;
-  justify-content: center; /* Align to the start of the main axis */
-  padding: 0%;
+  gap: 2%; /* Spacing between items in the container */
+  justify-content: center; /* Center content horizontally */
+  padding: 0%; /* No padding */
 }
 
+/* Active line style */
 .item-line-image-active {
-  background-color: #000; /* Adjust the color for the active line */
-  width: 20px;
-  height: 20px;
-  filter: grayscale(100%); // Apply grayscale filter to make it black and white
+  background-color: #000; /* Black background for active line */
+  width: 20px; /* Width of the active line */
+  height: 20px; /* Height of the active line */
+  filter: grayscale(100%); /* Convert to black and white */
 }
 
+/* Inactive line style */
 .item-line-image {
-  width: 18px;
-  height: 8px;
-  filter: grayscale(100%); // Apply grayscale filter to make it black and white
+  width: 18px; /* Width of inactive lines */
+  height: 8px; /* Height of inactive lines */
+  filter: grayscale(100%); /* Convert to black and white */
 }
