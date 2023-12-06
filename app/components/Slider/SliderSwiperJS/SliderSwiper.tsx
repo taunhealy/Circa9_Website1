@@ -1,12 +1,18 @@
 "use client";
 
+// Import React, useState, useMemo, useEffect
 import React, { useState, useMemo, useEffect } from "react";
+// Import motion and AnimatePresence from framer-motion
 import { motion, AnimatePresence } from "framer-motion";
+// Import your styles
 import "./sliderswiper.scss";
+// Import the necessary components
 import BrandFilterButton from "../../Buttons/BrandFilterButtons";
 import Cursor from "../../Cursors/Cursor";
 import ItemLines from "../../ItemLines/ItemLines";
+import Image from "next/image";
 
+// Define interfaces for Item and SliderProps
 interface Item {
   id: number;
   title: string;
@@ -23,11 +29,12 @@ interface SliderProps {
   items: Item[];
 }
 
+// Define the SliderSwiperWrapper component
 const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedBrand, setSelectedBrand] = useState<string | null>("Recent");
   const [filterButtonsVisible, setFilterButtonsVisible] = useState(true);
-  const [showCursor, setShowCursor] = useState(false); // Add showCursor state
+  const [showCursor, setShowCursor] = useState(false);
 
   const brands = useMemo(() => {
     const uniqueBrands = Array.from(
@@ -52,7 +59,6 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
   useEffect(() => {
     setFilterButtonsVisible(false);
 
-    // Show filter buttons after a short delay
     const timeoutId = setTimeout(() => {
       setFilterButtonsVisible(true);
     }, 500);
@@ -117,8 +123,8 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
       <AnimatePresence mode="wait">
         <motion.div
           className="brand-filter-sidebar"
-          onMouseOver={() => setShowCursor(true)} // Show cursor on mouse over
-          onMouseLeave={() => setShowCursor(false)} // Hide cursor on mouse leave
+          onMouseOver={() => setShowCursor(true)}
+          onMouseLeave={() => setShowCursor(false)}
           initial="hidden"
           animate="show"
           exit="exit"
@@ -135,6 +141,7 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
           ))}
         </motion.div>
       </AnimatePresence>
+
       {filteredItems.length > 0 && (
         <AnimatePresence mode="wait">
           <motion.div
@@ -146,14 +153,18 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
             variants={brandFilterAnimation}
             custom={currentIndex}
           >
-            <img
+            {/* Replace the <img> tag with the Image component */}
+            <Image
               className="item-image"
               src={filteredItems[currentIndex].img}
               alt={filteredItems[currentIndex].title}
+              width={700}
+              height={700}
             />
           </motion.div>
         </AnimatePresence>
       )}
+
       <AnimatePresence mode="wait">
         <motion.div
           initial="hidden"
@@ -186,6 +197,7 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
           </button>
         </motion.div>
       </AnimatePresence>
+
       <AnimatePresence>
         {filteredItems.length > 0 && (
           <motion.div
@@ -218,4 +230,5 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
   );
 };
 
+// Export the SliderSwiperWrapper component
 export default SliderSwiperWrapper;

@@ -3,7 +3,7 @@
 .item-lines {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   align-self: center; /* Align to the bottom */
   width: 100%;
 }
@@ -24,10 +24,11 @@
   background-color: #000; /* Adjust the color for the active line */
   width: 20px;
   height: 20px;
+  filter: grayscale(100%); // Apply grayscale filter to make it black and white
 }
 
 .item-line-image {
   width: 18px;
-  height: 18px;
-  border-radius: 3rem;
+  height: 8px;
+  filter: grayscale(100%); // Apply grayscale filter to make it black and white
 }

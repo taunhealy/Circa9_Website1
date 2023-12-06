@@ -25,8 +25,8 @@ const ItemLines: React.FC<ItemLinesProps> = ({ items, activeIndex }) => {
           className={`item-line-image ${index === activeIndex ? "active" : ""}`}
           src={item.img}
           alt={item.title}
-          initial={{ scale: 0.8, opacity: 0.2 }}
-          animate={{ scale: index === activeIndex ? 1.0 : 0.8, opacity: 1 }}
+          initial={{ scale: 0.5, opacity: 0.5 }}
+          animate={{ scale: index === activeIndex ? 1.2 : 0.3, opacity: 1 }}
         />
       ))}
     </div>
