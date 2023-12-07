@@ -2,7 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import "./ItemLines.scss"; // Import the CSS file
+import Image from "next/image"; // Import the Image component
+import "./ItemLines.scss";
 
 interface ItemLinesProps {
   items: Item[];
@@ -20,15 +21,22 @@ const ItemLines: React.FC<ItemLinesProps> = ({ items, activeIndex }) => {
   return (
     <div className="item-lines">
       {items.map((item, index) => (
-        <motion.img
+        <motion.div
           key={item.id}
           className={`item-line-image ${index === activeIndex ? "active" : ""}`}
-          src={item.img}
-          alt={item.title}
           initial={{ scale: 0.5, opacity: 0.5 }}
-          animate={{ scale: index === activeIndex ? 1.2 : 0.3, opacity: 1 }}
-        />
+          animate={{ scale: index === activeIndex ? 0.7 : 0.3, opacity: 1 }}
+        >
+          {/* Replace motion.img with Image component */}
+          <Image
+            src={item.img}
+            alt={item.title}
+            width={25} // Set your desired width
+            height={5} // Set your desired height
+          />
+        </motion.div>
       ))}
+      <div className="item-ratio">{`${activeIndex + 1}/${items.length}`}</div>
     </div>
   );
 };

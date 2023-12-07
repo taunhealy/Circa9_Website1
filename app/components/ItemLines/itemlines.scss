@@ -1,11 +1,4 @@
 /* Style for the individual lines within the item lines container */
-.item-lines {
-  display: flex; /* Flexbox layout for item lines */
-  flex-direction: column; /* Arrange items in a column */
-  gap: 8px; /* Spacing between each line */
-  align-self: center; /* Center horizontally within the container */
-  width: 100%; /* Full width of the container */
-}
 
 /* Container for the item lines grid */
 .item-lines-container {
@@ -20,12 +13,21 @@
   padding: 0%; /* No padding */
 }
 
+.item-lines {
+  display: flex; /* Flexbox layout for item lines */
+  flex-direction: column; /* Arrange items in a column */
+  gap: 8px; /* Spacing between each line */
+  align-self: center; /* Center horizontally within the container */
+  width: 100%; /* Full width of the container */
+}
+
 /* Active line style */
 .item-line-image-active {
   background-color: #000; /* Black background for active line */
   width: 20px; /* Width of the active line */
   height: 20px; /* Height of the active line */
   filter: grayscale(100%); /* Convert to black and white */
+  border-radius: 2rem;
 }
 
 /* Inactive line style */
@@ -33,4 +35,15 @@
   width: 18px; /* Width of inactive lines */
   height: 8px; /* Height of inactive lines */
   filter: grayscale(100%); /* Convert to black and white */
+}
+
+.item-ratio {
+  width: 22px;
+  height: 22px;
+  position: relative; /* Use relative positioning */
+  display: flex; /* Flexbox layout for the container */
+  font-family: Inter;
+  color: black;
+  background-color: green;
+  justify-content: center;
 }
