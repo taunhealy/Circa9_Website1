@@ -52,7 +52,7 @@ const FadeInWhenVisible: React.FC<FadeInWhenVisibleProps> = ({
           opacity: 1,
           y: 0,
           transition: {
-            duration: index / 4 + 0.7,
+            duration: index / 4 + 0.5,
             ease: "easeInOut",
             delay: (index / index / 3) * 0.03,
           }, // Adjust delay
@@ -82,8 +82,9 @@ const Card: React.FC<CardProps> = ({ itemsData }) => {
                   <Image
                     src={item.img}
                     alt={item.title}
-                    layout="fill"
-                    objectFit="cover"
+                    width={1000}
+                    height={1000}
+                    object-fit="contain"
                   />
                 </motion.div>
               </div>

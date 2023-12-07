@@ -31,7 +31,7 @@
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  gap: 18px; /* Adjust as needed */
+  gap: 12px; /* Adjust as needed */
   z-index: 100;
 }
 
@@ -91,10 +91,10 @@
 .brand-title {
   color: rgba(158, 158, 158, 1);
   font-family: Poppins;
-  letter-spacing: 0.3em;
+  letter-spacing: 3px;
   font-style: bold;
   font-weight: 500;
-  font-size: clamp(14px, 70%, 70%);
+  font-size: clamp(12px, 50%, 70%);
   place-content: flex-start;
   align-items: left;
   text-align: left;
@@ -107,7 +107,7 @@
   letter-spacing: 0.18em;
   font-style: bold;
   font-weight: 600;
-  font-size: clamp(27px, 100%, 100%);
+  font-size: clamp(25px, 100%, 100%);
 }
 
 .button-prev,
@@ -134,6 +134,6 @@
   font-family: Poppins;
   letter-spacing: 0.18em;
   font-style: bold;
-  font-weight: 600;
-  font-size: clamp(16px, 100%, 100%);
+  font-weight: 450;
+  font-size: clamp(12px, 14px, 100%);
 }
