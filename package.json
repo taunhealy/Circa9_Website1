@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@ionic/react": "^7.5.6",
+    "@mux/mux-player": "^2.2.0",
+    "@mux/mux-player-react": "^2.2.0",
+    "@mux/mux-video-react": "^0.8.0",
     "@types/node": "20.9.2",
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
@@ -19,7 +22,7 @@
     "gsap": "^3.12.2",
     "ionicons": "^7.2.1",
     "lenis": "^0.0.2",
-    "next": "14.0.3",
+    "next": "14.0.1",
     "payload": "^2.1.1",
     "react": "^18.2.0",
     "react-dom": "18.2.0",

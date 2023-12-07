@@ -10,19 +10,27 @@ import "./sliderswiper.scss";
 import BrandFilterButton from "../../Buttons/BrandFilterButtons";
 import Cursor from "../../Cursors/Cursor";
 import ItemLines from "../../ItemLines/ItemLines";
-import Image from "next/image";
+// Import the necessary components from Mux
+import MuxVideoPlayer from "../../MuxVideo/MuxVideoPlayer";
 
 // Define interfaces for Item and SliderProps
 interface Item {
   id: number;
   title: string;
-  img: string;
-  date: string;
   brand: string;
-  desc?: string;
-  director?: string;
-  production?: string;
-  cinematographer?: string;
+  img: string;
+  desc: string;
+  director: string;
+  production: string;
+  cinematographer: string;
+  editor: string;
+  date: string;
+  videoUrl: string;
+  muxAssetId: string;
+  videoTitle: string;
+  muxPlaybackId: string;
+  video_id: string;
+  playbackId: string;
 }
 
 interface SliderProps {
@@ -153,13 +161,10 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
             variants={brandFilterAnimation}
             custom={currentIndex}
           >
-            {/* Replace the <img> tag with the Image component */}
-            <Image
-              className="item-image"
-              src={filteredItems[currentIndex].img}
-              alt={filteredItems[currentIndex].title}
-              width={700}
-              height={700}
+            {/* Use the Video component from Mux */}
+            <MuxVideoPlayer
+              playbackId={filteredItems[currentIndex].playbackId}
+              videoTitle={filteredItems[currentIndex].title}
             />
           </motion.div>
         </AnimatePresence>

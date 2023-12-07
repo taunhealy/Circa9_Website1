@@ -10,6 +10,11 @@ const ItemsData = [
     cinematographer: "z",
     editor: "e",
     date: "2023-11-18T08:30:00Z",
+    playbackId: "T4s00Lm9KcwYo00pd5LT01ucB2QKJAw90000sDqfxTUatL028",
+    videoUrl:
+      "https://stream.mux.com/T4s00Lm9KcwYo00pd5LT01ucB2QKJAw90000sDqfxTUatL028.m3u8",
+    muxAssetId: "bjyeSfLJKB3nfjpp8U02ja7AAnN01ojUxJojpduMVt3Bo",
+    videoTitle: "Super Interesting Video 1",
   },
   {
     id: 2,
@@ -22,6 +27,11 @@ const ItemsData = [
     editor: "e",
     desc: `vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing. Marfa thundercats `,
     date: "2023-10-25T14:45:00Z",
+    playbackId: "T4s00Lm9KcwYo00pd5LT01ucB2QKJAw90000sDqfxTUatL028",
+    videoUrl:
+      "https://stream.mux.com/T4s00Lm9KcwYo00pd5LT01ucB2QKJAw90000sDqfxTUatL028.m3u8",
+    muxAssetId: "bjyeSfLJKB3nfjpp8U02ja7AAnN01ojUxJojpduMVt3Bo",
+    videoTitle: "Super Interesting Video 2",
   },
   {
     id: 3,
