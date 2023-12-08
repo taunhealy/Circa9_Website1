@@ -1,48 +1,43 @@
 "use client";
 
-// Import React, useState, useMemo, useEffect
 import React, { useState, useMemo, useEffect } from "react";
-// Import motion and AnimatePresence from framer-motion
 import { motion, AnimatePresence } from "framer-motion";
-// Import your styles
+import Image from "next/image";
 import "./sliderswiper.scss";
-// Import the necessary components
 import BrandFilterButton from "../../Buttons/BrandFilterButtons";
 import Cursor from "../../Cursors/Cursor";
 import ItemLines from "../../ItemLines/ItemLines";
-// Import the necessary components from Mux
 import MuxVideoPlayer from "../../MuxVideo/MuxVideoPlayer";
-
-// Define interfaces for Item and SliderProps
+import ItemsData from "@/app/data/data";
 interface Item {
   id: number;
   title: string;
   brand: string;
   img: string;
-  desc: string;
-  director: string;
-  production: string;
-  cinematographer: string;
-  editor: string;
-  date: string;
-  videoUrl: string;
-  muxAssetId: string;
-  videoTitle: string;
-  muxPlaybackId: string;
-  video_id: string;
-  playbackId: string;
+  desc?: string; // Optional property
+  director?: string;
+  production?: string;
+  cinematographer?: string;
+  editor?: string;
+  date?: any;
+  videoUrl?: string;
+  muxAssetId?: string;
+  videoTitle?: string;
+  muxPlaybackId?: string;
+  video_id?: string;
+  playbackId?: string;
 }
 
 interface SliderProps {
   items: Item[];
 }
 
-// Define the SliderSwiperWrapper component
 const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedBrand, setSelectedBrand] = useState<string | null>("Recent");
   const [filterButtonsVisible, setFilterButtonsVisible] = useState(true);
   const [showCursor, setShowCursor] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const brands = useMemo(() => {
     const uniqueBrands = Array.from(
@@ -112,7 +107,11 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
   };
 
   return (
-    <div className="item-background-container">
+    <div
+      className="item-background-container"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <AnimatePresence mode="wait">
         <motion.section
           key={selectedBrand}
@@ -150,25 +149,36 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
         </motion.div>
       </AnimatePresence>
 
-      {filteredItems.length > 0 && (
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={selectedBrand}
-            className="item-image-container"
-            initial="hidden"
-            animate="show"
-            exit="exit"
-            variants={brandFilterAnimation}
-            custom={currentIndex}
-          >
-            {/* Use the Video component from Mux */}
-            <MuxVideoPlayer
-              playbackId={filteredItems[currentIndex].playbackId}
-              videoTitle={filteredItems[currentIndex].title}
-            />
-          </motion.div>
-        </AnimatePresence>
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={selectedBrand}
+          className="item-image-container"
+          initial="hidden"
+          animate="show"
+          exit="exit"
+          variants={brandFilterAnimation}
+          custom={currentIndex}
+        >
+          <div className="item-media-container">
+            {isHovered && (
+              <motion.div
+                className="mux-video-player-hover"
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                variants={brandFilterAnimation}
+              >
+                <MuxVideoPlayer
+                  playbackId={filteredItems[currentIndex].playbackId}
+                  videoTitle={filteredItems[currentIndex].title}
+                  autoPlay={true}
+                  startTime={15}
+                />
+              </motion.div>
+            )}
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -235,5 +245,4 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
   );
 };
 
-// Export the SliderSwiperWrapper component
 export default SliderSwiperWrapper;
