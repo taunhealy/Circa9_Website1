@@ -163,13 +163,10 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
         >
           {isHovered ? (
             // Render MuxVideoPlayer when hovered
-            <MuxVideoPlayer
-              src={`https://stream.mux.com/${filteredItems[currentIndex].playbackId}.m3u8?max_resolution=720p`}
-              playbackId={filteredItems[currentIndex].playbackId}
-              videoTitle={filteredItems[currentIndex].videoTitle}
-              autoPlay
-              muted
-              startTime={15}
+            <MuxGIF
+              gifUrl={`https://image.mux.com/${filteredItems[currentIndex].playbackId}/animated.gif?width=540`}
+              width={1000}
+              height={1000}
             />
           ) : (
             // Render MuxThumbnail as the initial state
