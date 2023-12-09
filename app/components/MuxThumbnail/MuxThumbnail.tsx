@@ -9,6 +9,7 @@ export interface MuxThumbnailProps {
   height: number;
   time: number;
   style?: React.CSSProperties; // Adjust the type to React.CSSProperties
+  src?: string;
 }
 
 const MuxThumbnail: React.FC<MuxThumbnailProps> = ({

@@ -10,6 +10,7 @@ interface MuxVideoPlayerProps {
   autoPlay?: boolean;
   muted?: boolean;
   startTime?: number; // Add startTime prop to set the start time
+  src?: string;
 }
 
 // Define the MuxVideoPlayer component

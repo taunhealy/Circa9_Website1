@@ -160,30 +160,31 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
           variants={brandFilterAnimation}
           custom={currentIndex}
         >
-          
-          {isHovered && (
-            <motion.div
-              className="mux-video-player-hover"
-              initial="hidden"
-              animate="show"
-              exit="exit"
-              variants={brandFilterAnimation}
-            >
-              {/* Update styles for MuxThumbnail */}
-              <MuxThumbnail
-                playbackId={filteredItems[currentIndex].playbackId}
-                width={1000}
-                height={1000}
-                time={15}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  transform: "scale(0.875)",
-                  aspectRatio: "8/10",
-                }}
-              />
-            </motion.div>
+          {isHovered ? (
+            // Render MuxVideoPlayer when hovered
+            <MuxVideoPlayer
+              src={`https://stream.mux.com/${filteredItems[currentIndex].playbackId}.m3u8?max_resolution=144p`}
+              playbackId={filteredItems[currentIndex].playbackId}
+              videoTitle={filteredItems[currentIndex].videoTitle}
+              autoPlay
+              muted
+              startTime={15}
+            />
+          ) : (
+            // Render MuxThumbnail as the initial state
+            <MuxThumbnail
+              playbackId={filteredItems[currentIndex].playbackId}
+              width={1000}
+              height={1000}
+              time={15}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                transform: "scale(0.875)",
+                aspectRatio: "8/10",
+              }}
+            />
           )}
         </motion.div>
       </AnimatePresence>
