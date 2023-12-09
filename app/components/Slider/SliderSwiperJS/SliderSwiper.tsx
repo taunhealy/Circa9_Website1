@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import "./sliderswiper.scss";
 import BrandFilterButton from "../../Buttons/BrandFilterButtons";
 import Cursor from "../../Cursors/Cursor";

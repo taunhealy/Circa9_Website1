@@ -1,3 +1,21 @@
+interface DataProp {
+  id: number;
+  title: string;
+  brand: string;
+  img: string;
+  desc: string;
+  director: string;
+  production: string;
+  cinematographer: string;
+  editor: string;
+  date: string;
+  playbackId: string; // Add the playbackId property here
+}
+
+interface CardProps {
+  itemsData: DataProp[];
+}
+
 const ItemsData = [
   {
     id: 1,
@@ -24,7 +42,7 @@ const ItemsData = [
     editor: "e",
     desc: `vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing. Marfa thundercats `,
     date: "2023-10-25T14:45:00Z",
-    playbackId: "T4s00Lm9KcwYo00pd5LT01ucB2QKJAw90000sDqfxTUatL028",
+    playbackId: "o5LazCGzbmzxdjlfbz2aw2mJbOdaK2gfu3dmkoOR8a00",
     videoTitle: "Super Interesting Video 2",
   },
   {
