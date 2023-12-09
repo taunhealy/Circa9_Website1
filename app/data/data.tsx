@@ -6,7 +6,7 @@ const ItemsData = [
     img: "https://images.unsplash.com/photo-1504109586057-7a2ae83d1338?q=80&w=2533&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     desc: `I'm baby woke mlkshk wolf bitters live-edge blue bottle, hammock freegan copper mug whatever cold-pressed `,
     director: "x",
-    production: "Yo Mama",
+    production: "Circa9",
     cinematographer: "z",
     editor: "e",
     date: "2023-11-18T08:30:00Z",

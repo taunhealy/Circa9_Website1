@@ -12,6 +12,7 @@ import ItemsData from "@/app/data/data";
 import MuxThumbnail, {
   MuxThumbnailProps,
 } from "../../MuxThumbnail/MuxThumbnail";
+import MuxGIF from "../../MuxGIF/MuxGIF";
 interface Item {
   id: number;
   title: string;
@@ -163,7 +164,7 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
           {isHovered ? (
             // Render MuxVideoPlayer when hovered
             <MuxVideoPlayer
-              src={`https://stream.mux.com/${filteredItems[currentIndex].playbackId}.m3u8?max_resolution=144p`}
+              src={`https://stream.mux.com/${filteredItems[currentIndex].playbackId}.m3u8?max_resolution=720p`}
               playbackId={filteredItems[currentIndex].playbackId}
               videoTitle={filteredItems[currentIndex].videoTitle}
               autoPlay
