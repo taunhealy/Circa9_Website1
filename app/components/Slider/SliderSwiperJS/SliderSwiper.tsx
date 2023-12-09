@@ -9,6 +9,9 @@ import Cursor from "../../Cursors/Cursor";
 import ItemLines from "../../ItemLines/ItemLines";
 import MuxVideoPlayer from "../../MuxVideo/MuxVideoPlayer";
 import ItemsData from "@/app/data/data";
+import MuxThumbnail, {
+  MuxThumbnailProps,
+} from "../../MuxThumbnail/MuxThumbnail";
 interface Item {
   id: number;
   title: string;
@@ -107,11 +110,7 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
   };
 
   return (
-    <div
-      className="item-background-container"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="item-background-container">
       <AnimatePresence mode="wait">
         <motion.section
           key={selectedBrand}
@@ -151,6 +150,8 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
 
       <AnimatePresence mode="wait">
         <motion.div
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           key={selectedBrand}
           className="item-image-container"
           initial="hidden"
@@ -159,24 +160,31 @@ const SliderSwiperWrapper: React.FC<SliderProps> = ({ items }) => {
           variants={brandFilterAnimation}
           custom={currentIndex}
         >
-          <div className="item-media-container">
-            {isHovered && (
-              <motion.div
-                className="mux-video-player-hover"
-                initial="hidden"
-                animate="show"
-                exit="exit"
-                variants={brandFilterAnimation}
-              >
-                <MuxVideoPlayer
-                  playbackId={filteredItems[currentIndex].playbackId}
-                  videoTitle={filteredItems[currentIndex].title}
-                  autoPlay={true}
-                  startTime={15}
-                />
-              </motion.div>
-            )}
-          </div>
+          
+          {isHovered && (
+            <motion.div
+              className="mux-video-player-hover"
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              variants={brandFilterAnimation}
+            >
+              {/* Update styles for MuxThumbnail */}
+              <MuxThumbnail
+                playbackId={filteredItems[currentIndex].playbackId}
+                width={1000}
+                height={1000}
+                time={15}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  transform: "scale(0.875)",
+                  aspectRatio: "8/10",
+                }}
+              />
+            </motion.div>
+          )}
         </motion.div>
       </AnimatePresence>
 
